@@ -248,3 +248,36 @@ let _ = assert(triAbr (listeVersAbr liste) = res);;
 
 let res = 10::20::30::[];;
 let _ = assert(triAbr (listeVersAbr liste2) = res);;
+
+(*  Exercice 81 - Poly TD  *)
+(* +---------------------+ *)
+
+(* Ajoute 2 à tous les éléments d'une liste d'entiers *)
+List.map((+) 2) 
+
+(* 
+ Fonction qui prend en argument un entier n et rend une 
+ liste des n fonctions qui ajoutent respectivement n, n-1, ... 1 
+*)
+let rec (liste_f : int -> (int -> int) list) = fun n -> 
+  if n > 0 then (+) n::(liste_f (n-1))
+  else [];; 
+
+(*  Exercice 85 - Poly TD  *)
+(* +---------------------+ *)
+
+(* 
+ Ecrire une fonction qui prend un paramètre une fonction de test
+ (un prédicat) à deux paramètres p, ainsi que deux listes [a1;a2; ...;an] et [b1;b2; ...;bn] 
+ et calcule (p a1 b1) && (p a2 b2) && ... && (p an bn). 
+
+ Elle lève une exception si les deux lsites sont de tailles différentes.
+ Utiliser cette fonction pour définir une fonction qui teste si deux listes sont identiques.
+*)
+
+let rec for_all_2 (f : 'a -> 'b -> bool) (l1 : 'a list) (l2 : 'b list) : bool = 
+  match l1, l2 with
+  | x::ls1, y::ls2 -> (f x y) && (for_all_2 f ls1 ls2)
+  | [], [] -> true
+  | [], _  -> failwith "l1 vide"
+  | _, []  -> failwith "l2 vide";;
